@@ -3,6 +3,6 @@ import { listProjects } from './project.handlers';
 
 const router = express.Router();
 
-router.get('/', listProjects);
+router.post('/', listProjects);
 
 export default router;

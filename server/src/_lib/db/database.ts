@@ -1,6 +1,6 @@
 import { Database } from './db-types';
 import SQLite from 'better-sqlite3';
-import { Kysely, SqliteDialect } from 'kysely';
+import { Compilable, Kysely, SqliteDialect } from 'kysely';
 
 const dialect = new SqliteDialect({
   database: new SQLite('db.sqlite'),
@@ -19,3 +19,13 @@ export const db = new Kysely<Database>({
  The db instance will be shared across all the files that import it.
  Subsequent imports of the db object in other files will reference the same instance.
 */
+
+export function dbQryGenLogger<T extends Compilable>(qb: T): T {
+  // eslint-disable-next-line no-console
+  console.log('Query : ', qb.compile().query);
+  // eslint-disable-next-line no-console
+  console.log('SQL   : ', qb.compile().sql);
+  // eslint-disable-next-line no-console
+  console.log('Params: ', qb.compile().parameters);
+  return qb;
+}
