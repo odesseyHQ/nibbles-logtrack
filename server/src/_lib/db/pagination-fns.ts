@@ -35,7 +35,10 @@ export const filterQueryBuilder = <T>({
 }: IFilterQueryBuilder<T>) => {
   let query = dbQuery;
   if (!isObject(filterReqData)) {
-    throw new Error('Filter not an object');
+    throw new ValidationError({
+      message: 'Filter not an object',
+      cause: 'Passed invalid filer',
+    });
   } else {
     forOwn(filterReqData, (indFilter, indFilterKey: string) => {
       type ParamFilterKeyType = ReferenceExpression<Database, keyof Database>;
@@ -74,7 +77,10 @@ export const filterQueryBuilder = <T>({
               query = query.where(paramFilterKey, '=', value);
               break;
             default:
-              throw new Error(`Unsupported filter operation: ${operation}`);
+              throw new ValidationError({
+                message: `Unsupported filter operation: ${operation}`,
+                cause: 'Unsupported filter param',
+              });
           }
         });
       } else {
