@@ -20,3 +20,21 @@ export class ValidationError extends ErrorBase {
     Object.setPrototypeOf(this, ValidationError.prototype);
   }
 }
+export class UnauthorizedError extends ErrorBase {
+  constructor({ message, cause }: { message: string; cause?: any }) {
+    super({ message, cause });
+    Object.setPrototypeOf(this, UnauthorizedError.prototype);
+  }
+}
+export class NoDataError extends ErrorBase {
+  constructor({ message, cause }: { message: string; cause?: any }) {
+    super({ message, cause });
+    Object.setPrototypeOf(this, UnauthorizedError.prototype);
+  }
+}
+export class DatabaseError extends ErrorBase {
+  constructor({ message, cause }: { message: string; cause?: any }) {
+    super({ message, cause });
+    Object.setPrototypeOf(this, UnauthorizedError.prototype);
+  }
+}
