@@ -2,7 +2,7 @@ import { Generated, Insertable, Selectable, Updateable } from 'kysely';
 
 // types for DB spec
 export interface ProjectTable {
-  id: Generated<number>;
+  projectId: Generated<number>;
   projectCode: string;
 }
 

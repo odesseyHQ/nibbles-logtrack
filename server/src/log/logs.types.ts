@@ -1,21 +1,24 @@
-import {
-  ColumnType,
-  Generated,
-  Insertable,
-  Selectable,
-  Updateable,
-} from 'kysely';
+import { Generated, Insertable, Selectable, Updateable } from 'kysely';
 
 // Types for DB spec
 export interface LogTable {
-  id: Generated<number>;
-  projectCode: string;
+  logId: Generated<number>;
   logText: string;
   logType: string;
-  meta: string;
-  created_at: ColumnType<Date, string | undefined, never>;
+  status?: string;
+  projectId: string;
+  meta?: string;
+  created_at: Generated<string>;
 }
 
 export type Log = Selectable<LogTable>;
 export type NewLog = Insertable<LogTable>;
 export type LogUpdate = Updateable<LogTable>;
+
+export interface CreateLogData {
+  logText: string;
+  logType: string;
+  status?: string;
+  project: { projectId: string };
+  meta?: string;
+}

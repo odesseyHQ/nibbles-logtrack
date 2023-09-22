@@ -17,7 +17,7 @@ import { ValidationError } from '../error-handler';
 // If you want to know more about T (generic type). Watch this video: https://www.youtube.com/watch?v=t0qQSujSslQ
 interface IFilterQueryBuilder<T> {
   filterReqData: Record<string, any>;
-  dbQuery: SelectQueryBuilder<Database, keyof Database, T>;
+  dbQuery: SelectQueryBuilder<Database, any, T>;
   allowedFilters: Array<keyof T>;
 }
 /**
