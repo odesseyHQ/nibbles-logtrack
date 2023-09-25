@@ -4,7 +4,7 @@
   "description": "A basic typescript app starter for 2023.",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf ./build && tsc && npm run build",
+    "build": "rimraf ./build && tsc",
     "start:dev": "npx nodemon",
     "start": "node build/index.js",
     "db:migrate": "ts-node ./src/_lib/db/migrate-db.ts",
