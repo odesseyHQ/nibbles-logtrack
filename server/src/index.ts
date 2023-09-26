@@ -7,7 +7,7 @@ import cors from 'cors';
 
 const app = express();
 
-const whitelist = ['http://localhost:4700'];
+const whitelist = ['http://localhost:4700', 'http://logger.odesseylabs.com'];
 
 const corsOptions: any = {
   origin: function (origin: string, callback: any) {
