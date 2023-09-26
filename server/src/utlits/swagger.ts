@@ -10,7 +10,7 @@ const options: swaggerJsdoc.Options = {
       version: '1.0.0',
     },
     components: {
-      securitySchemas: {
+      securitySchemes: {
         bearerAuth: {
           type: 'http',
           scheme: 'bearer',
@@ -31,9 +31,10 @@ const swaggerSpec = swaggerJsdoc(options);
 
 const SwaggerDocs = (app: Express) => {
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-  app.get('docs.json', (req: Request, res: Response) => {
+  app.get('/docs.json', (req: Request, res: Response) => {
     res.setHeader('content-Type', 'application/json');
     res.send(swaggerSpec);
   });
 };
+
 export default SwaggerDocs;

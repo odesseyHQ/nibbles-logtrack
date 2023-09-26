@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import {
   createProjects,
   editProjects,
@@ -11,8 +11,28 @@ import {
   detailLogs,
   updateLogStatus,
 } from './log/log.handlers';
+import 'dotenv/config';
 
 const router = express.Router();
+
+const authenticateKey = (req: Request, res: Response, next: any) => {
+  const authorizationHeader = req.header('Authorization');
+  const access_key = authorizationHeader
+    ? authorizationHeader.replace('Bearer ', '')
+    : null;
+
+  if (!access_key) {
+    console.log('Access key is missing');
+    return res.status(400).send('Authorization failed');
+  } else if (access_key === process.env.ACCESS_KEY) {
+    console.log('You can access');
+    next();
+  } else {
+    console.log('Access key is invalid');
+    return res.status(401).send('Authorization failed');
+  }
+};
+router.use(authenticateKey);
 
 /**
  * @openapi
