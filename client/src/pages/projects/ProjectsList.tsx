@@ -4,14 +4,29 @@ import {
   Box,
   Button,
   Flex,
+  FormControl,
+  FormLabel,
   HStack,
   Heading,
   Icon,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Select,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { AiOutlineCalendar } from "react-icons/ai";
 import ProjectListTable from "./ProjectListTable";
 const ProjectsList = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
   return (
     <>
       <TopBar />
@@ -36,9 +51,39 @@ const ProjectsList = () => {
               <option value="option3">Option 3</option>
             </Select>
           </HStack>
-          <Button colorScheme="teal" variant="solid">
+          <Button colorScheme="teal" variant="solid" onClick={onOpen}>
             Create Project
           </Button>
+          <Modal
+            initialFocusRef={initialRef}
+            finalFocusRef={finalRef}
+            isOpen={isOpen}
+            onClose={onClose}
+          >
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Create new Project</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody pb={6}>
+                <FormControl>
+                  <FormLabel color="rgba(0, 0, 0, 0.36)" fontWeight="bold">
+                    Project Code <span style={{ color: "red" }}>*</span>
+                  </FormLabel>
+                  <Input
+                    ref={initialRef}
+                    placeholder="Enter Your project code"
+                  />
+                </FormControl>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button onClick={onClose}>Cancel</Button>
+                <Button colorScheme="blue" mr={3}>
+                  Create
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </Flex>
         <ProjectListTable />
       </Box>
