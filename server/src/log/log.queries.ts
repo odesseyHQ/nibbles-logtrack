@@ -21,7 +21,7 @@ export const getAllLogsQry = async ({
   const initialQry: SelectQueryBuilder<
     Database,
     'logs',
-    { logId: number; logType: string }
+    { logId: number; logType: string; projectId: string }
   > = db.selectFrom('logs').selectAll();
 
   const paginatedQuery = paginatedQueryBuilder({
@@ -34,8 +34,25 @@ export const getAllLogsQry = async ({
   });
 
   const dbDocs = await paginatedQuery.$call(dbQryGenLogger).execute();
+  const modifiedDocs = await Promise.all(
+    dbDocs.map(async (doc) => {
+      const { projectId, ...restDoc } = doc;
+      const project = await db
+        .selectFrom('project')
+        .where('projectId', '=', parseInt(projectId))
+        .select('projectCode')
+        .execute();
+      return {
+        ...restDoc,
+        project: {
+          id: projectId,
+          projectCode: project[0]?.projectCode || '',
+        },
+      };
+    }),
+  );
 
-  return { data: dbDocs };
+  return { data: modifiedDocs };
 };
 
 export const createLogService = async (logData: CreateLogData) => {
