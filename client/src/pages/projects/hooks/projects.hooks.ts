@@ -2,9 +2,10 @@ import { useToast } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import axios from "axios";
-
+const baseUrl = import.meta.env.VITE_APP_BASE_URL;
+const authorizationToken = import.meta.env.VITE_APP_AUTHORIZATION_TOKEN;
 const fetchProjectList = async () => {
-  const url = "http://logger.odesseylabs.com/api/project";
+  const url = `${baseUrl}/project`;
   const requestBody = {
     filter: {},
     sort: {
@@ -16,7 +17,7 @@ const fetchProjectList = async () => {
   };
 
   const headers = {
-    Authorization: "Bearer NIBBLES_ODESSEY",
+    Authorization: authorizationToken,
     "Content-Type": "application/json",
   };
 
@@ -37,9 +38,9 @@ export const useCreateProjectForm = (
 ) => {
   const toast = useToast();
 
-  const CREATE_PROJECT = `http://logger.odesseylabs.com/api/project/create`;
+  const CREATE_PROJECT = `${baseUrl}/project/create`;
   const headers = {
-    Authorization: "Bearer NIBBLES_ODESSEY",
+    Authorization: authorizationToken,
     "Content-Type": "application/json",
   };
   const queryClient = useQueryClient();
