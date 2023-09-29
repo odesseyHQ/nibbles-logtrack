@@ -14,8 +14,34 @@ import {
 import { FaFolder } from "react-icons/fa";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { useState } from "react";
+import { useLogsList } from "./hooks/logs.hooks";
+interface LogTableProps {
+  selectedLogType: string;
+}
+interface LogItemInf {
+  logId: string;
+  logText: string;
+  project: {
+    projectCode: string;
+  };
+  logType: string;
+  created_at: string;
+  metaTimestamp?: string; // @Todo will rename it once added to backend
+  metadescription?: string; // @Todo will rename it once added to backend
+}
 
-const LogTable = () => {
+export interface FilterInf {
+  logType?: { IN: string[] };
+}
+const LogTable: React.FC<LogTableProps> = ({ selectedLogType }) => {
+  const filter: FilterInf =
+    selectedLogType !== ""
+      ? {
+          logType: { IN: [selectedLogType] },
+        }
+      : {};
+  const { data, isLoading, isError } = useLogsList(filter);
+
   const itemsPerPage = 2;
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -25,47 +51,9 @@ const LogTable = () => {
 
   const offset = currentPage * itemsPerPage;
 
-  const data = [
-    {
-      field1: {
-        tokenNo: 684956894,
-        errorMsg: "Uncaught TypeError: Cannot read properties",
-        projectName: "Salesboy-FE",
-      },
-      field2: "Error",
-      field3: "10:30:00 AM, 9/28/2022 IST",
-      field4: {
-        timeStamp: "Timestamp:2022-09-28",
-        errorMsg: "Uncaught TypeError: Cannot  ",
-      },
-    },
-    {
-      field1: {
-        tokenNo: 684956895,
-        errorMsg: "Uncaught TypeError: Cannot read properties",
-        projectName: "Salesboy-FE",
-      },
-      field2: "Error",
-      field3: "11:30:00 AM, 19/28/2022 IST",
-      field4: {
-        timeStamp: "Timestamp:2022-09-28",
-        errorMsg: "Uncaught TypeError: Cannot  ",
-      },
-    },
-    {
-      field1: {
-        tokenNo: 684956896,
-        errorMsg: "Uncaught TypeError: Cannot read properties",
-        projectName: "Salesboy-FE",
-      },
-      field2: "Error",
-      field3: "9:30:00 AM, 29/28/2012 IST",
-      field4: {
-        timeStamp: "Timestamp:2022-09-28",
-        errorMsg: "Uncaught TypeError: Cannot  ",
-      },
-    },
-  ];
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
   const currentData = data.slice(offset, offset + itemsPerPage);
   return (
     <>
@@ -97,33 +85,59 @@ const LogTable = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {currentData.map((item, index) => (
+            {currentData.map((item: LogItemInf, index: number) => (
               <Tr key={index}>
                 <Td>
                   <Text color="teal" fontWeight={"bold"}>
-                    {item.field1.tokenNo}
+                    {item.logId}
                   </Text>
                   <Text mt="1" mb="2">
                     {" "}
-                    {item.field1.errorMsg}
+                    {item.logText}
                   </Text>
 
-                  <Button px="2" size="xs">
-                    <FaFolder />
-                    {item.field1.projectName}
+                  <Button
+                    px="2"
+                    size="xs"
+                    display="flex"
+                    gap="2"
+                    alignItems="center"
+                  >
+                    <span>
+                      {" "}
+                      <FaFolder />
+                    </span>
+                    <span>{item.project.projectCode}</span>
                   </Button>
                 </Td>
                 <Td>
                   {" "}
-                  <Badge colorScheme="red">{item.field2}</Badge>
+                  <Badge
+                    variant="solid"
+                    colorScheme={
+                      item.logType === "ERROR"
+                        ? "red"
+                        : item.logType === "WARNING"
+                        ? "yellow"
+                        : item.logType === "INFO"
+                        ? "blue"
+                        : "gray"
+                    }
+                  >
+                    {item.logType}
+                  </Badge>
                 </Td>
 
-                <Td fontWeight="bold">{item.field3}</Td>
+                <Td fontWeight="bold">{item.created_at}</Td>
                 <Td>
                   <Text mb="2" fontWeight="bold">
-                    {item.field4.timeStamp}
+                    {item.metaTimestamp ? item.metaTimestamp : "N/A"}
+                    {/* @Todo currently static once added to Api will be made dynamic */}
                   </Text>
-                  <Text>{item.field4.errorMsg}</Text>
+                  <Text>
+                    {item.metadescription ? item.metadescription : "N/A"}
+                    {/* @Todo currently static once added to Api will be made dynamic */}
+                  </Text>
                 </Td>
               </Tr>
             ))}
