@@ -22,11 +22,32 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlineCalendar } from "react-icons/ai";
 import ProjectListTable from "./ProjectListTable";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useCreateProjectForm, useProjectList } from "./hooks/projects.hooks";
+
+type projectName = {
+  projectCode: string;
+};
 const ProjectsList = () => {
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const { mutate, isLoading: isSubmitInProgress }: any = useCreateProjectForm();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const onSubmit: SubmitHandler<projectName> = (data: any) => {
+    setValue("projectCode", " ");
+    onClose();
+    mutate(data);
+  };
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
+
   return (
     <>
       <TopBar />
@@ -54,6 +75,7 @@ const ProjectsList = () => {
           <Button colorScheme="teal" variant="solid" onClick={onOpen}>
             Create Project
           </Button>
+
           <Modal
             initialFocusRef={initialRef}
             finalFocusRef={finalRef}
@@ -64,24 +86,26 @@ const ProjectsList = () => {
             <ModalContent>
               <ModalHeader>Create new Project</ModalHeader>
               <ModalCloseButton />
-              <ModalBody pb={6}>
-                <FormControl>
-                  <FormLabel color="rgba(0, 0, 0, 0.36)" fontWeight="bold">
-                    Project Code <span style={{ color: "red" }}>*</span>
-                  </FormLabel>
-                  <Input
-                    ref={initialRef}
-                    placeholder="Enter Your project code"
-                  />
-                </FormControl>
-              </ModalBody>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <ModalBody pb={6}>
+                  <FormControl>
+                    <FormLabel color="rgba(0, 0, 0, 0.36)" fontWeight="bold">
+                      Project Code <span style={{ color: "red" }}>*</span>
+                    </FormLabel>
+                    <Input
+                      placeholder="Enter Your project code"
+                      {...register("projectCode")}
+                    />
+                  </FormControl>
+                </ModalBody>
 
-              <ModalFooter>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button colorScheme="blue" mr={3}>
-                  Create
-                </Button>
-              </ModalFooter>
+                <ModalFooter>
+                  <Button onClick={onClose}>Cancel</Button>
+                  <Button colorScheme="blue" type="submit" mr={3}>
+                    Create
+                  </Button>
+                </ModalFooter>
+              </form>
             </ModalContent>
           </Modal>
         </Flex>

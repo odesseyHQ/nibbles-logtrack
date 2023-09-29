@@ -11,10 +11,16 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { useState } from "react";
+import { useProjectList } from "./hooks/projects.hooks";
 
 const ProjectListTable = () => {
+  const { data, isLoading, isError } = useProjectList();
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(0);
+
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -22,33 +28,6 @@ const ProjectListTable = () => {
 
   const offset = currentPage * itemsPerPage;
 
-  const data = [
-    {
-      field1: 1,
-      field2: "AMAZON",
-      field3: "10:30:00 AM, 9/28/2022 IST",
-    },
-    {
-      field1: 2,
-      field2: "AMAZON",
-      field3: "10:30:00 AM, 9/28/2022 IST",
-    },
-    {
-      field1: 3,
-      field2: "FLIPKART",
-      field3: "10:30:00 AM, 9/28/2022 IST",
-    },
-    {
-      field1: 4,
-      field2: "AMAZON",
-      field3: "10:30:00 AM, 9/28/2022 IST",
-    },
-    {
-      field1: 5,
-      field2: "MYNTRA",
-      field3: "10:30:00 AM, 9/28/2022 IST",
-    },
-  ];
   const currentData = data.slice(offset, offset + itemsPerPage);
   return (
     <>
@@ -74,17 +53,17 @@ const ProjectListTable = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {currentData.map((item, index) => (
+            {currentData.map((item: any, index: number) => (
               <Tr key={index}>
                 <Td>
-                  <Text fontWeight={"bold"}>{item.field1}</Text>
+                  <Text fontWeight={"bold"}>{item.projectId}</Text>
                 </Td>
                 <Td>
                   {" "}
-                  <Text fontWeight={"bold"}>{item.field2}</Text>
+                  <Text fontWeight={"bold"}>{item.projectCode}</Text>
                 </Td>
 
-                <Td fontWeight="bold">{item.field3}</Td>
+                <Td fontWeight="bold">{item.created_at}</Td>
               </Tr>
             ))}
           </Tbody>
