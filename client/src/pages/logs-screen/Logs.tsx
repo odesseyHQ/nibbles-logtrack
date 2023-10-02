@@ -13,8 +13,14 @@ import {
 import { AiOutlineFolder, AiOutlineCalendar } from "react-icons/ai";
 import { IoExtensionPuzzleOutline } from "react-icons/io5";
 import LogTable from "./LogTable";
+import { useState } from "react";
 
 const Logs = () => {
+  const [selectedLogType, setSelectedLogType] = useState("");
+
+  const handleLogTypeChange = (event) => {
+    setSelectedLogType(event.target.value);
+  };
   return (
     <>
       <TopBar />
@@ -42,10 +48,14 @@ const Logs = () => {
             </HStack>
             <HStack align="center">
               <Icon as={IoExtensionPuzzleOutline} boxSize={6} mr={2} />
-              <Select placeholder="Log Type">
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
+              <Select
+                placeholder="Log Type"
+                value={selectedLogType}
+                onChange={handleLogTypeChange}
+              >
+                <option value="ERROR">ERROR</option>
+                <option value="WARNING">WARNING</option>
+                <option value="INFO">INFO</option>
               </Select>
               <Box borderLeft="1px solid black" height="1.875" mx={2} />
             </HStack>
@@ -65,7 +75,7 @@ const Logs = () => {
             </InputGroup>
           </Box>
         </Flex>
-        <LogTable />
+        <LogTable selectedLogType={selectedLogType} />
       </Box>
     </>
   );
