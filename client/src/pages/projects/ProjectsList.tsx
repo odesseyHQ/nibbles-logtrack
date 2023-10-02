@@ -25,7 +25,7 @@ import ProjectListTable from "./ProjectListTable";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useCreateProjectForm, useProjectList } from "./hooks/projects.hooks";
 
-type projectName = {
+export type projectName = {
   projectCode: string;
 };
 const ProjectsList = () => {
@@ -94,7 +94,9 @@ const ProjectsList = () => {
                     </FormLabel>
                     <Input
                       placeholder="Enter Your project code"
-                      {...register("projectCode")}
+                      {...register("projectCode", {
+                        required: "This is required.",
+                      })}
                     />
                   </FormControl>
                 </ModalBody>
