@@ -31,3 +31,22 @@ const fetchLogsList = async (filter: FilterInf) => {
 export const useLogsList = (filter: FilterInf) => {
   return useQuery(["logsList", filter], () => fetchLogsList(filter));
 };
+
+const fetchSingleLog = async (logId: any) => {
+  const url = `${baseUrl}/logs/${logId}`;
+
+  const headers = {
+    Authorization: authorizationToken,
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const response = await axios.get(url, { headers });
+    return response?.data;
+  } catch (error) {
+    throw new Error("Failed to fetch logs list");
+  }
+};
+export const useSingleLog = (logId: any) => {
+  return useQuery(["singlelog"], () => fetchSingleLog(logId));
+};

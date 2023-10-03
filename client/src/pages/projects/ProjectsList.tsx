@@ -23,21 +23,14 @@ import {
 import { AiOutlineCalendar } from "react-icons/ai";
 import ProjectListTable from "./ProjectListTable";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useCreateProjectForm, useProjectList } from "./hooks/projects.hooks";
+import { useCreateProjectForm } from "./hooks/projects.hooks";
 
 export type projectName = {
   projectCode: string;
 };
 const ProjectsList = () => {
-  const {
-    register,
-    handleSubmit,
-    control,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm();
-  const { mutate, isLoading: isSubmitInProgress }: any = useCreateProjectForm();
+  const { register, handleSubmit, setValue } = useForm<projectName>();
+  const { mutate }: any = useCreateProjectForm();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onSubmit: SubmitHandler<projectName> = (data: any) => {
     setValue("projectCode", " ");
