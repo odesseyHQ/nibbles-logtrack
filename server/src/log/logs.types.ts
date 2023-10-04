@@ -6,7 +6,7 @@ export interface LogTable {
   logText: string;
   logType: string;
   status?: string;
-  projectId: string;
+  projectId: number;
   meta?: string;
   created_at: Generated<string>;
 }
@@ -19,6 +19,6 @@ export interface CreateLogData {
   logText: string;
   logType: string;
   status?: string;
-  project: { projectId: string };
+  project: { projectId: number };
   meta?: string;
 }

@@ -21,14 +21,14 @@ export const getAllLogsQry = async ({
   const initialQry: SelectQueryBuilder<
     Database,
     'logs',
-    { logId: number; logType: string; projectId: string }
+    { logId: number; logType: string; projectId: number; created_at: string }
   > = db.selectFrom('logs').selectAll();
 
   const paginatedQuery = paginatedQueryBuilder({
     dbQuery: initialQry,
     filterReqData: filter,
     sortReqData: sort,
-    allowedFilters: ['logId', 'logType'],
+    allowedFilters: ['logId', 'logType', 'projectId', 'created_at'],
     limit,
     offset,
   });
@@ -39,7 +39,7 @@ export const getAllLogsQry = async ({
       const { projectId, ...restDoc } = doc;
       const project = await db
         .selectFrom('project')
-        .where('projectId', '=', parseInt(projectId))
+        .where('projectId', '=', projectId)
         .select('projectCode')
         .execute();
       return {
@@ -66,7 +66,7 @@ export const createLogService = async (logData: CreateLogData) => {
     const validateProjectCode = await db
       .selectFrom('project')
       .select(['projectId', 'projectCode'])
-      .where('projectId', '=', parseInt(logData.project.projectId))
+      .where('projectId', '=', newObj.projectId)
       .executeTakeFirst();
 
     if (validateProjectCode) {
@@ -103,12 +103,13 @@ export const detailLogService = async (id: string) => {
         .where('logId', '=', parseInt(id))
         .selectAll()
         .executeTakeFirst();
-
-      projectData = await db
-        .selectFrom('project')
-        .where('projectId', '=', parseInt(results ? results.projectId : ''))
-        .selectAll()
-        .executeTakeFirst();
+      results
+        ? (projectData = await db
+            .selectFrom('project')
+            .where('projectId', '=', results.projectId)
+            .selectAll()
+            .executeTakeFirst())
+        : null;
 
       const response = transformRequestToResponseData({ results, projectData });
       return { response, message: 'success' };
@@ -153,12 +154,13 @@ export const updateLogStatusService = async (logData: {
         .where('logId', '=', parseInt(logData.id))
         .returningAll()
         .executeTakeFirst();
-
-      projectData = await db
-        .selectFrom('project')
-        .where('projectId', '=', parseInt(results ? results.projectId : ''))
-        .selectAll()
-        .executeTakeFirst();
+      results
+        ? (projectData = await db
+            .selectFrom('project')
+            .where('projectId', '=', results.projectId)
+            .selectAll()
+            .executeTakeFirst())
+        : null;
       const response = transformRequestToResponseData({ results, projectData });
       return { response, message: 'success' };
     } else {

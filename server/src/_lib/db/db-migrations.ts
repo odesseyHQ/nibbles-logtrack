@@ -16,6 +16,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
     .addColumn('logText', 'text', (col) => col.notNull())
     .addColumn('logType', 'text', (col) => col.notNull())
     .addColumn('projectId', 'text', (col) => col.notNull())
+    .addColumn('meta', 'text')
     .addColumn('status', 'text', (col) =>
       col.defaultTo('UN_RESOLVED').notNull(),
     )
