@@ -28,27 +28,21 @@ import { useEditProjectForm, useProjectList } from "./hooks/projects.hooks";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { projectName } from "./ProjectsList";
 interface ProjectInf {
-  projectId: number;
+  projectId: number | undefined;
   projectCode: string;
   created_at: string;
 }
 
 const ProjectListTable = () => {
-  const {
-    register,
-    handleSubmit,
-    control,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, setValue } = useForm<ProjectInf>();
 
   const [selectedProject, setSelectedProject] = useState<ProjectInf | null>(
     null
   );
-  const { mutate, isLoading: isEditInProgress }: any = useEditProjectForm(
-    selectedProject?.projectId
+  const { mutate }: any = useEditProjectForm(
+    selectedProject?.projectId?.toString() || null
   );
+
   const handleEditClick = (project: ProjectInf) => {
     setSelectedProject(() => project);
 
@@ -64,7 +58,7 @@ const ProjectListTable = () => {
     onClose();
     mutate(data);
   };
-  const { data, isLoading, isError } = useProjectList();
+  const { data, isLoading } = useProjectList();
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();

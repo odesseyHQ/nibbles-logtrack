@@ -15,6 +15,7 @@ import { FaFolder } from "react-icons/fa";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { useState } from "react";
 import { useLogsList } from "./hooks/logs.hooks";
+import { useNavigate } from "react-router-dom";
 interface LogTableProps {
   selectedLogType: string;
 }
@@ -34,13 +35,14 @@ export interface FilterInf {
   logType?: { IN: string[] };
 }
 const LogTable: React.FC<LogTableProps> = ({ selectedLogType }) => {
+  const navigate = useNavigate();
   const filter: FilterInf =
     selectedLogType !== ""
       ? {
           logType: { IN: [selectedLogType] },
         }
       : {};
-  const { data, isLoading, isError } = useLogsList(filter);
+  const { data, isLoading } = useLogsList(filter);
 
   const itemsPerPage = 2;
   const [currentPage, setCurrentPage] = useState(0);
@@ -55,6 +57,7 @@ const LogTable: React.FC<LogTableProps> = ({ selectedLogType }) => {
     return <Text>Loading...</Text>;
   }
   const currentData = data.slice(offset, offset + itemsPerPage);
+
   return (
     <>
       <TableContainer>
@@ -86,7 +89,12 @@ const LogTable: React.FC<LogTableProps> = ({ selectedLogType }) => {
           </Thead>
           <Tbody>
             {currentData.map((item: LogItemInf, index: number) => (
-              <Tr key={index}>
+              <Tr
+                key={index}
+                onClick={() => {
+                  navigate(`/logdetails/${item.logId}`);
+                }}
+              >
                 <Td>
                   <Text color="teal" fontWeight={"bold"}>
                     {item.logId}
@@ -132,11 +140,11 @@ const LogTable: React.FC<LogTableProps> = ({ selectedLogType }) => {
                 <Td>
                   <Text mb="2" fontWeight="bold">
                     {item.metaTimestamp ? item.metaTimestamp : "N/A"}
-                    {/* @Todo currently static once added to Api will be made dynamic */}
+                    {/* @Todo currently static, once added to Api it will be made dynamic */}
                   </Text>
                   <Text>
                     {item.metadescription ? item.metadescription : "N/A"}
-                    {/* @Todo currently static once added to Api will be made dynamic */}
+                    {/* @Todo currently static, once added to Api it will be made dynamic */}
                   </Text>
                 </Td>
               </Tr>

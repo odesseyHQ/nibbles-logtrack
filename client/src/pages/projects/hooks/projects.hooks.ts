@@ -56,7 +56,7 @@ export const useCreateProjectForm = (
         });
       return res;
     },
-    onSuccess: (response: any) => {
+    onSuccess: () => {
       if (onSuccessCallBack) {
         onSuccessCallBack();
       } else {
@@ -112,7 +112,7 @@ export const useEditProjectForm = (
         });
       return res;
     },
-    onSuccess: (response: any) => {
+    onSuccess: () => {
       if (onSuccessCallBack) {
         onSuccessCallBack();
       } else {

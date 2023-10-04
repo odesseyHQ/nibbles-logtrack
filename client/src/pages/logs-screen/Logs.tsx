@@ -18,7 +18,7 @@ import { useState } from "react";
 const Logs = () => {
   const [selectedLogType, setSelectedLogType] = useState("");
 
-  const handleLogTypeChange = (event) => {
+  const handleLogTypeChange = (event: any) => {
     setSelectedLogType(event.target.value);
   };
   return (
