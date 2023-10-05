@@ -4,6 +4,7 @@ import { Generated, Insertable, Selectable, Updateable } from 'kysely';
 export interface ProjectTable {
   projectId: Generated<number>;
   projectCode: string;
+  created_at: Generated<string>;
 }
 
 export type Project = Selectable<ProjectTable>;

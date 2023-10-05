@@ -20,14 +20,14 @@ export const getAllProjectsQry = async ({
   const initialQry: SelectQueryBuilder<
     Database,
     'project',
-    { projectId: number; projectCode: string }
+    { projectId: number; projectCode: string; created_at: string }
   > = db.selectFrom('project').selectAll();
 
   const paginatedQuery = paginatedQueryBuilder({
     dbQuery: initialQry,
     filterReqData: filter,
     sortReqData: sort,
-    allowedFilters: ['projectId', 'projectCode'],
+    allowedFilters: ['projectId', 'projectCode', 'created_at'],
     limit,
     offset,
   });
