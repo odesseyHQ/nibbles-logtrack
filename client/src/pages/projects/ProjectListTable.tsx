@@ -158,7 +158,6 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
                     <Text fontWeight="bold">{item.projectId}</Text>
                   </Td>
                   <Td>
-                    {" "}
                     <Flex gap="4">
                       <Text
                         fontWeight="bold"
@@ -174,7 +173,6 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
                         onClick={() => handleEditClick(item)}
                         style={{ cursor: "pointer", color: "teal" }}
                       >
-                        {" "}
                         <BiEdit />
                       </span>
                     </Flex>

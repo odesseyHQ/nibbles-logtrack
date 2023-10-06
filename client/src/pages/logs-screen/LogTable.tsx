@@ -30,7 +30,6 @@ interface LogItemInf {
   };
   logType: string;
   created_at: string;
-  metaTimestamp?: string; // @Todo will rename it once added to backend
   meta?: string;
 }
 export interface FilterInf {
@@ -47,9 +46,7 @@ const LogTable: React.FC<LogTableProps> = ({
   const { id: projectId } = useParams<{ id: string | undefined }>();
   const navigate = useNavigate();
   const filter: FilterInf = {
-    ...(selectedLogType
-      ? { logType: { IN: [selectedLogType] } }
-      : { logType: { IN: ["ERROR", "WARNING", "INFO"] } }),
+    ...(selectedLogType ? { logType: { IN: [selectedLogType] } } : {}),
     ...(projectId ? { projectId: { IN: [projectId] } } : {}),
     ...(selectedProject ? { projectId: { IN: [selectedProject] } } : {}),
     ...(logId && searchedLogId ? { logId: { IN: [logId] } } : {}),
@@ -114,7 +111,6 @@ const LogTable: React.FC<LogTableProps> = ({
                       {item.logId}
                     </Text>
                     <Text mt="1" mb="2">
-                      {" "}
                       {item.logText}
                     </Text>
 
@@ -126,14 +122,12 @@ const LogTable: React.FC<LogTableProps> = ({
                       alignItems="center"
                     >
                       <span>
-                        {" "}
                         <FaFolder />
                       </span>
                       <span>{item.project.projectCode}</span>
                     </Button>
                   </Td>
                   <Td>
-                    {" "}
                     <Badge
                       variant="solid"
                       colorScheme={
@@ -152,10 +146,6 @@ const LogTable: React.FC<LogTableProps> = ({
 
                   <Td fontWeight="bold">{item.created_at}</Td>
                   <Td>
-                    <Text mb="2" fontWeight="bold">
-                      {item.metaTimestamp ? item.metaTimestamp : "N/A"}
-                      {/* @Todo currently static, once added to Api it will be made dynamic */}
-                    </Text>
                     <Text>{item.meta ? item.meta : "N/A"}</Text>
                   </Td>
                 </Tr>
