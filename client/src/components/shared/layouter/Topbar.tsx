@@ -1,6 +1,8 @@
 import { Flex, Text, Avatar, Box, HStack } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const TopBar = () => {
+  const navigate = useNavigate();
   return (
     <Flex
       px={4}
@@ -10,7 +12,13 @@ const TopBar = () => {
       justifyContent="space-between"
       boxShadow="0px 4px 24px rgba(0, 0, 0, 0.06)"
     >
-      <HStack align="center">
+      <HStack
+        align="center"
+        style={{ cursor: "pointer" }}
+        onClick={() => {
+          navigate("/");
+        }}
+      >
         <Avatar size="sm" name="Hazard" src="/hazard.png" />
         <Text fontSize="lg" fontWeight="bold">
           Nibbles LogTracker

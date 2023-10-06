@@ -1,13 +1,12 @@
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
 import axios from "axios";
 const baseUrl = import.meta.env.VITE_APP_BASE_URL;
 const authorizationToken = import.meta.env.VITE_APP_AUTHORIZATION_TOKEN;
-const fetchProjectList = async () => {
+const fetchProjectList = async (filter: any) => {
   const url = `${baseUrl}/project`;
   const requestBody = {
-    filter: {},
+    filter,
     sort: {
       sortKey: "projectId",
       sortOrder: "ASC",
@@ -28,8 +27,8 @@ const fetchProjectList = async () => {
     throw new Error("Failed to fetch project list");
   }
 };
-export const useProjectList = () => {
-  return useQuery(["projectList"], fetchProjectList);
+export const useProjectList = (filter: any) => {
+  return useQuery(["projectList", filter], () => fetchProjectList(filter));
 };
 
 export const useCreateProjectForm = (
