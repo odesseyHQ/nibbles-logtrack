@@ -68,10 +68,7 @@ const LogDetails = () => {
         <Heading as="h2" mt="10" mb="5" fontSize="md">
           Meta{" "}
         </Heading>
-        <Text>
-          {data.metadescription ? data.metadescription : "N/A"}
-          {/* @Todo currently static, once added to Api it will be made dynamic */}
-        </Text>
+        <Text>{data.meta ? data.meta : "N/A"}</Text>
       </Box>
     </>
   );

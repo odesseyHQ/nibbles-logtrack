@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TopBar from "../../components/shared/layouter/Topbar";
 import {
   Box,
@@ -8,8 +8,8 @@ import {
   FormLabel,
   HStack,
   Heading,
-  Icon,
   Input,
+  InputGroup,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -17,10 +17,9 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
   useDisclosure,
 } from "@chakra-ui/react";
-import { AiOutlineCalendar } from "react-icons/ai";
+
 import ProjectListTable from "./ProjectListTable";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useCreateProjectForm } from "./hooks/projects.hooks";
@@ -32,10 +31,18 @@ const ProjectsList = () => {
   const { register, handleSubmit, setValue } = useForm<projectName>();
   const { mutate }: any = useCreateProjectForm();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [projectCode, setProjectCode] = useState<string>("");
+  const [searchedProjectCode, setSearchedProjectCode] = useState<string>("");
+
   const onSubmit: SubmitHandler<projectName> = (data: any) => {
     setValue("projectCode", " ");
     onClose();
     mutate(data);
+  };
+
+  const handleSearchButtonClick = () => {
+    setProjectCode(searchedProjectCode);
   };
 
   const initialRef = React.useRef(null);
@@ -58,12 +65,23 @@ const ProjectsList = () => {
           mb="1.25rem"
         >
           <HStack align="center">
-            <Icon as={AiOutlineCalendar} boxSize={6} mr={2} />
-            <Select placeholder="24H">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </Select>
+            <Box>
+              <InputGroup>
+                <Button
+                  colorScheme="teal"
+                  onClick={handleSearchButtonClick}
+                  mr="2"
+                >
+                  Search
+                </Button>
+                <Input
+                  type="search"
+                  placeholder="Type project code here"
+                  value={searchedProjectCode}
+                  onChange={(e) => setSearchedProjectCode(e.target.value)}
+                />
+              </InputGroup>
+            </Box>
           </HStack>
           <Button colorScheme="teal" variant="solid" onClick={onOpen}>
             Create Project
@@ -104,7 +122,10 @@ const ProjectsList = () => {
             </ModalContent>
           </Modal>
         </Flex>
-        <ProjectListTable />
+        <ProjectListTable
+          projectCode={projectCode}
+          searchedProjectCode={searchedProjectCode}
+        />
       </Box>
     </>
   );

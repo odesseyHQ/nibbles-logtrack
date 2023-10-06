@@ -27,13 +27,22 @@ import React, { useEffect, useState } from "react";
 import { useEditProjectForm, useProjectList } from "./hooks/projects.hooks";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { projectName } from "./ProjectsList";
+import { useNavigate } from "react-router-dom";
+import convertUTCtoIST from "../../utils/date-fns";
 interface ProjectInf {
   projectId: number | undefined;
   projectCode: string;
   created_at: string;
 }
-
-const ProjectListTable = () => {
+interface ProjectListTableProps {
+  projectCode: string;
+  searchedProjectCode: string;
+}
+const ProjectListTable: React.FC<ProjectListTableProps> = ({
+  projectCode,
+  searchedProjectCode,
+}) => {
+  const navigate = useNavigate();
   const { register, handleSubmit, setValue } = useForm<ProjectInf>();
 
   const [selectedProject, setSelectedProject] = useState<ProjectInf | null>(
@@ -42,10 +51,16 @@ const ProjectListTable = () => {
   const { mutate }: any = useEditProjectForm(
     selectedProject?.projectId?.toString() || null
   );
-
+  const filter =
+    projectCode !== "" && searchedProjectCode !== ""
+      ? {
+          projectCode: {
+            IN: [projectCode],
+          },
+        }
+      : {};
   const handleEditClick = (project: ProjectInf) => {
     setSelectedProject(() => project);
-
     onOpen();
   };
   useEffect(() => {
@@ -58,26 +73,20 @@ const ProjectListTable = () => {
     onClose();
     mutate(data);
   };
-  const { data, isLoading } = useProjectList();
+  const { data, isLoading } = useProjectList(filter);
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
-
   if (isLoading) {
     return <Text>Loading...</Text>;
   }
-
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-
   const offset = currentPage * itemsPerPage;
-
   const currentData = data.slice(offset, offset + itemsPerPage);
-
   return (
     <>
       <Modal
@@ -136,29 +145,45 @@ const ProjectListTable = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {currentData.map((item: ProjectInf, index: number) => (
-              <Tr key={index}>
-                <Td>
-                  <Text fontWeight={"bold"}>{item.projectId}</Text>
+            {currentData.length === 0 ? (
+              <Tr>
+                <Td colSpan={3} textAlign="center">
+                  No items found
                 </Td>
-                <Td>
-                  {" "}
-                  <Flex gap="4">
-                    <Text fontWeight={"bold"}>{item.projectCode}</Text>
-
-                    <span
-                      onClick={() => handleEditClick(item)}
-                      style={{ cursor: "pointer", color: "teal" }}
-                    >
-                      {" "}
-                      <BiEdit />
-                    </span>
-                  </Flex>
-                </Td>
-
-                <Td fontWeight="bold">{item.created_at}</Td>
               </Tr>
-            ))}
+            ) : (
+              currentData.map((item: ProjectInf, index: number) => (
+                <Tr key={index}>
+                  <Td>
+                    <Text fontWeight="bold">{item.projectId}</Text>
+                  </Td>
+                  <Td>
+                    {" "}
+                    <Flex gap="4">
+                      <Text
+                        fontWeight="bold"
+                        onClick={() => {
+                          navigate(`/projectlogs/${item.projectId}`);
+                        }}
+                        style={{ cursor: "pointer" }}
+                      >
+                        {item.projectCode}
+                      </Text>
+
+                      <span
+                        onClick={() => handleEditClick(item)}
+                        style={{ cursor: "pointer", color: "teal" }}
+                      >
+                        {" "}
+                        <BiEdit />
+                      </span>
+                    </Flex>
+                  </Td>
+
+                  <Td fontWeight="bold">{convertUTCtoIST(item.created_at)}</Td>
+                </Tr>
+              ))
+            )}
           </Tbody>
         </Table>
       </TableContainer>
@@ -187,5 +212,4 @@ const ProjectListTable = () => {
     </>
   );
 };
-
 export default ProjectListTable;
