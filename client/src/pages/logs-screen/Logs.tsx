@@ -30,6 +30,7 @@ const Logs = () => {
   const filter = { ...projectIdFilter };
   const { data: projectList, isLoading: projectListLoading } =
     useProjectList(filter);
+  const { data: allProjectList } = useProjectList({});
 
   const handleLogTypeChange = (event: any) => {
     setSelectedLogType(event.target.value);
@@ -47,10 +48,11 @@ const Logs = () => {
   if (projectListLoading) {
     return <Text>Loading...</Text>;
   }
+
   return (
     <>
       <TopBar />
-      <Box maxW="65.25rem" mx="auto" mt="7.75rem">
+      <Box maxW="80%" mx="auto" mt="3.75rem">
         <Heading as="h1">Logs</Heading>
 
         <Flex
@@ -59,7 +61,7 @@ const Logs = () => {
           alignItems="center"
           bg="white"
           justifyContent="space-between"
-          mt="4rem"
+          mt="1rem"
           mb="1.25rem"
         >
           <Flex>
@@ -67,17 +69,16 @@ const Logs = () => {
               <Icon as={AiOutlineFolder} boxSize={6} mr={2} />
               <Select
                 placeholder={
-                  projectId ? projectList?.projectCode : "All Projects"
+                  projectId ? projectList[0].projectCode : "All Projects"
                 }
                 value={selectedProject}
                 onChange={handleProjectTypeChange}
               >
-                {projectList &&
-                  projectList.map((project: any) => (
-                    <option key={project.projectId} value={project.projectId}>
-                      {project.projectCode}
-                    </option>
-                  ))}
+                {allProjectList.map((project: any) => (
+                  <option key={project.projectId} value={project.projectId}>
+                    {project.projectCode}
+                  </option>
+                ))}
               </Select>
               <Box borderLeft="1px solid black" height="1.875" mx={2} />
             </HStack>

@@ -51,7 +51,7 @@ const ProjectsList = () => {
   return (
     <>
       <TopBar />
-      <Box maxW="65.25rem" mx="auto" mt="7.75rem">
+      <Box maxW="80%" mx="auto" mt="7.75rem">
         <Heading as="h1" color="#746666">
           Project List
         </Heading>
