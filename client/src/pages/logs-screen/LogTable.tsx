@@ -172,7 +172,6 @@ const LogTable: React.FC<LogTableProps> = ({
                   <Td fontWeight="bold">{item.created_at}</Td>
                   <Td>
                     <Text>
-                      {" "}
                       {item.meta
                         ? item.meta.split(" ").slice(0, 6).join(" ") +
                           (item.meta.split(" ").length > 6 ? " ..." : "")
