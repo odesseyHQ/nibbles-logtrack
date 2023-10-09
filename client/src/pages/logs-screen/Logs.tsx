@@ -51,7 +51,7 @@ const Logs = () => {
   const filteredProjectList = allProjectList.filter(
     (project: any) => project.projectCode !== projectList[0].projectCode
   );
-
+  console.log(selectedProject);
   return (
     <>
       <TopBar />

@@ -52,10 +52,15 @@ const LogTable: React.FC<LogTableProps> = ({
 }) => {
   const { id: projectId } = useParams<{ id: string | undefined }>();
   const navigate = useNavigate();
+
   const filter: FilterInf = {
     ...(selectedLogType ? { logType: { IN: [selectedLogType] } } : {}),
-    ...(projectId ? { projectId: { IN: [projectId] } } : {}),
-    ...(selectedProject ? { projectId: { IN: [selectedProject] } } : {}),
+    ...(projectId && selectedProject != "ALL_PROJECTS"
+      ? { projectId: { IN: [projectId] } }
+      : {}),
+    ...(selectedProject && selectedProject != "ALL_PROJECTS"
+      ? { projectId: { IN: [selectedProject] } }
+      : {}),
     ...(logId && searchedLogId ? { logId: { IN: [logId] } } : {}),
     ...(selectedTime
       ? selectedTime === "12"
@@ -75,6 +80,7 @@ const LogTable: React.FC<LogTableProps> = ({
         : {}
       : {}),
   };
+
   const { data, isLoading } = useLogsList(filter);
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(0);
