@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import Logs from "../pages/logs-screen/Logs";
 import ProjectsList from "../pages/projects/ProjectsList";
 import LogDetails from "../pages/logs-screen/LogDetails";
-import LogTable from "../pages/logs-screen/LogTable";
 
 const AuthenticatedRoutes = () => {
   return (

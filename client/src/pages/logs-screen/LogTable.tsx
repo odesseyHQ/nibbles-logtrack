@@ -76,7 +76,7 @@ const LogTable: React.FC<LogTableProps> = ({
       : {}),
   };
   const { data, isLoading } = useLogsList(filter);
-  const itemsPerPage = 2;
+  const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(0);
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -171,7 +171,12 @@ const LogTable: React.FC<LogTableProps> = ({
 
                   <Td fontWeight="bold">{item.created_at}</Td>
                   <Td>
-                    <Text>{item.meta ? item.meta : "N/A"}</Text>
+                    <Text>
+                      {item.meta
+                        ? item.meta.split(" ").slice(0, 6).join(" ") +
+                          (item.meta.split(" ").length > 6 ? " ..." : "")
+                        : "N/A"}
+                    </Text>
                   </Td>
                 </Tr>
               ))
