@@ -98,7 +98,7 @@ const Logs = () => {
             <HStack align="center">
               <Icon as={AiOutlineCalendar} boxSize={6} mr={2} />
               <Select
-                placeholder="Time"
+                placeholder="All Time"
                 value={selectedTime}
                 onChange={handleTimeChange}
               >
