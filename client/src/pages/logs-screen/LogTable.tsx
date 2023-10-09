@@ -16,11 +16,17 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { useState } from "react";
 import { useLogsList } from "./hooks/logs.hooks";
 import { useNavigate, useParams } from "react-router-dom";
+import {
+  behind12Hours,
+  behind24Hours,
+  convertDateToUTC,
+} from "../../utils/date-fns";
 interface LogTableProps {
   selectedLogType?: string;
   selectedProject?: string;
   searchedLogId?: string;
   logId?: string;
+  selectedTime?: string;
 }
 interface LogItemInf {
   logId: string;
@@ -42,6 +48,7 @@ const LogTable: React.FC<LogTableProps> = ({
   selectedProject,
   searchedLogId,
   logId,
+  selectedTime,
 }) => {
   const { id: projectId } = useParams<{ id: string | undefined }>();
   const navigate = useNavigate();
@@ -50,6 +57,23 @@ const LogTable: React.FC<LogTableProps> = ({
     ...(projectId ? { projectId: { IN: [projectId] } } : {}),
     ...(selectedProject ? { projectId: { IN: [selectedProject] } } : {}),
     ...(logId && searchedLogId ? { logId: { IN: [logId] } } : {}),
+    ...(selectedTime
+      ? selectedTime === "12"
+        ? {
+            created_at: {
+              GT: behind12Hours(new Date()),
+              LT: convertDateToUTC(new Date()),
+            },
+          }
+        : selectedTime === "24"
+        ? {
+            created_at: {
+              GT: behind24Hours(new Date()),
+              LT: convertDateToUTC(new Date()),
+            },
+          }
+        : {}
+      : {}),
   };
   const { data, isLoading } = useLogsList(filter);
   const itemsPerPage = 2;
@@ -62,6 +86,7 @@ const LogTable: React.FC<LogTableProps> = ({
     return <Text>Loading...</Text>;
   }
   const currentData = data.slice(offset, offset + itemsPerPage);
+
   return (
     <>
       <TableContainer>

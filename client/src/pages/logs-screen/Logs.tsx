@@ -20,6 +20,7 @@ import { useParams } from "react-router-dom";
 
 const Logs = () => {
   const [selectedLogType, setSelectedLogType] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
   const [selectedProject, setSelectedProject] = useState("");
   const [searchedLogId, setSearchedLogId] = useState<string>("");
   const [logId, setLogId] = useState<string>("");
@@ -36,6 +37,10 @@ const Logs = () => {
   const handleProjectTypeChange = (event: any) => {
     setSelectedProject(event.target.value);
   };
+  const handleTimeChange = (event: any) => {
+    setSelectedTime(event.target.value);
+  };
+
   const handleSearchButtonClick = () => {
     setLogId(searchedLogId);
   };
@@ -91,10 +96,13 @@ const Logs = () => {
             </HStack>
             <HStack align="center">
               <Icon as={AiOutlineCalendar} boxSize={6} mr={2} />
-              <Select placeholder="24H">
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
+              <Select
+                placeholder="Time"
+                value={selectedTime}
+                onChange={handleTimeChange}
+              >
+                <option value="24">24H</option>
+                <option value="12">12H</option>
               </Select>
             </HStack>
           </Flex>
@@ -119,6 +127,7 @@ const Logs = () => {
           selectedProject={selectedProject}
           searchedLogId={searchedLogId}
           logId={logId}
+          selectedTime={selectedTime}
         />
       </Box>
     </>
