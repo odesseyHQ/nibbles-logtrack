@@ -48,6 +48,9 @@ const Logs = () => {
   if (projectListLoading) {
     return <Text>Loading...</Text>;
   }
+  const filteredProjectList = allProjectList.filter(
+    (project: any) => project.projectCode !== projectList[0].projectCode
+  );
 
   return (
     <>
@@ -68,17 +71,18 @@ const Logs = () => {
             <HStack align="center">
               <Icon as={AiOutlineFolder} boxSize={6} mr={2} />
               <Select
+                value={selectedProject}
+                onChange={handleProjectTypeChange}
                 placeholder={
                   projectId ? projectList[0].projectCode : "All Projects"
                 }
-                value={selectedProject}
-                onChange={handleProjectTypeChange}
               >
-                {allProjectList.map((project: any) => (
+                {filteredProjectList.map((project: any) => (
                   <option key={project.projectId} value={project.projectId}>
                     {project.projectCode}
                   </option>
                 ))}
+                <option value="ALL_PROJECTS">All Projects</option>
               </Select>
               <Box borderLeft="1px solid black" height="1.875" mx={2} />
             </HStack>
