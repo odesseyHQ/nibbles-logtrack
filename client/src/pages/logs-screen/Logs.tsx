@@ -24,6 +24,11 @@ const Logs = () => {
   const [selectedProject, setSelectedProject] = useState("");
   const [searchedLogId, setSearchedLogId] = useState<string>("");
   const [logId, setLogId] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
   const { id: projectId } = useParams<{ id: string | undefined }>();
 
   const projectIdFilter = projectId ? { projectId: { IN: [projectId] } } : {};
@@ -34,16 +39,20 @@ const Logs = () => {
 
   const handleLogTypeChange = (event: any) => {
     setSelectedLogType(event.target.value);
+    handlePageChange(0);
   };
   const handleProjectTypeChange = (event: any) => {
     setSelectedProject(event.target.value);
+    handlePageChange(0);
   };
   const handleTimeChange = (event: any) => {
     setSelectedTime(event.target.value);
+    handlePageChange(0);
   };
 
   const handleSearchButtonClick = () => {
     setLogId(searchedLogId);
+    handlePageChange(0);
   };
   if (projectListLoading) {
     return <Text>Loading...</Text>;
@@ -133,6 +142,8 @@ const Logs = () => {
           searchedLogId={searchedLogId}
           logId={logId}
           selectedTime={selectedTime}
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
         />
       </Box>
     </>
