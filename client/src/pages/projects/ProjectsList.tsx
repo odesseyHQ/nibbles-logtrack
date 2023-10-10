@@ -34,6 +34,11 @@ const ProjectsList = () => {
 
   const [projectCode, setProjectCode] = useState<string>("");
   const [searchedProjectCode, setSearchedProjectCode] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
 
   const onSubmit: SubmitHandler<projectName> = (data: any) => {
     setValue("projectCode", " ");
@@ -43,6 +48,7 @@ const ProjectsList = () => {
 
   const handleSearchButtonClick = () => {
     setProjectCode(searchedProjectCode);
+    handlePageChange(0);
   };
 
   const initialRef = React.useRef(null);
@@ -125,6 +131,8 @@ const ProjectsList = () => {
         <ProjectListTable
           projectCode={projectCode}
           searchedProjectCode={searchedProjectCode}
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
         />
       </Box>
     </>

@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import { FaFolder } from "react-icons/fa";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { useState } from "react";
 import { useLogsList } from "./hooks/logs.hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -27,6 +26,8 @@ interface LogTableProps {
   searchedLogId?: string;
   logId?: string;
   selectedTime?: string;
+  currentPage: number;
+  handlePageChange: (newPage: number) => void;
 }
 interface LogItemInf {
   logId: string;
@@ -49,6 +50,8 @@ const LogTable: React.FC<LogTableProps> = ({
   searchedLogId,
   logId,
   selectedTime,
+  currentPage,
+  handlePageChange,
 }) => {
   const { id: projectId } = useParams<{ id: string | undefined }>();
   const navigate = useNavigate();
@@ -83,10 +86,7 @@ const LogTable: React.FC<LogTableProps> = ({
 
   const { data, isLoading } = useLogsList(filter);
   const itemsPerPage = 5;
-  const [currentPage, setCurrentPage] = useState(0);
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
+
   const offset = currentPage * itemsPerPage;
   if (isLoading) {
     return <Text>Loading...</Text>;

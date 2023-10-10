@@ -37,10 +37,14 @@ interface ProjectInf {
 interface ProjectListTableProps {
   projectCode: string;
   searchedProjectCode: string;
+  currentPage: number;
+  handlePageChange: (newPage: number) => void;
 }
 const ProjectListTable: React.FC<ProjectListTableProps> = ({
   projectCode,
   searchedProjectCode,
+  currentPage,
+  handlePageChange,
 }) => {
   const navigate = useNavigate();
   const { register, handleSubmit, setValue } = useForm<ProjectInf>();
@@ -75,16 +79,14 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
   };
   const { data, isLoading } = useProjectList(filter);
   const itemsPerPage = 5;
-  const [currentPage, setCurrentPage] = useState(0);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
   if (isLoading) {
     return <Text>Loading...</Text>;
   }
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
+
   const offset = currentPage * itemsPerPage;
   const currentData = data.slice(offset, offset + itemsPerPage);
   return (
