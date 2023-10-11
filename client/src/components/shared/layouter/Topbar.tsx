@@ -19,7 +19,7 @@ const TopBar = () => {
           navigate("/");
         }}
       >
-        <Avatar size="sm" name="Hazard" src="/hazard.png" />
+        <img src="/logo.png" alt="logo" />
         <Text fontSize="lg" fontWeight="bold">
           Nibbles LogTracker
         </Text>

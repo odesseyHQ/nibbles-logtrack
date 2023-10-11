@@ -3,8 +3,10 @@ import App from "./App.tsx";
 // import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
+import theme from "./styles/themes/themes.ts";
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <ChakraProvider>
+  <ChakraProvider theme={theme}>
     <BrowserRouter>
       <App />
     </BrowserRouter>

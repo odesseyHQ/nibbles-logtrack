@@ -10,8 +10,10 @@ import {
   Text,
   Button,
   Badge,
+  Flex,
 } from "@chakra-ui/react";
 import { FaFolder } from "react-icons/fa";
+import { BiSortAlt2 } from "react-icons/bi";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { useLogsList } from "./hooks/logs.hooks";
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,6 +22,8 @@ import {
   behind24Hours,
   convertDateToUTC,
 } from "../../utils/date-fns";
+import { useEffect, useState } from "react";
+
 interface LogTableProps {
   selectedLogType?: string;
   selectedProject?: string;
@@ -53,6 +57,22 @@ const LogTable: React.FC<LogTableProps> = ({
   currentPage,
   handlePageChange,
 }) => {
+  const [sortOption, setSortOption] = useState<string | null>("asc");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+
+  const handleSort = (option: string) => {
+    setSortOption((prevOption) =>
+      prevOption === option ? prevOption : option
+    );
+    setSortDirection((prevDirection) =>
+      prevDirection === "asc" ? "desc" : "asc"
+    );
+  };
+  useEffect(() => {
+    setSortOption("asc");
+    setSortDirection("asc"); // Set your desired default sorting option here
+  }, [selectedProject]);
+
   const { id: projectId } = useParams<{ id: string | undefined }>();
   const navigate = useNavigate();
 
@@ -91,25 +111,46 @@ const LogTable: React.FC<LogTableProps> = ({
   if (isLoading) {
     return <Text>Loading...</Text>;
   }
-  const currentData = data.slice(offset, offset + itemsPerPage);
+  const sortedData = [...data].sort((a, b) => {
+    const aValue = new Date(a.created_at).getTime();
+    const bValue = new Date(b.created_at).getTime();
+
+    return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
+  });
+
+  const currentData = sortedData.slice(offset, offset + itemsPerPage);
 
   return (
     <>
       <TableContainer>
         <Table
-          variant="simple"
-          colorScheme="gray.300"
+          variant="striped"
+          colorScheme="gray"
           borderWidth="1px"
           borderColor="gray.300"
         >
           <Thead>
             <Tr>
               <Th>
-                <Select placeholder="Last seen" size="xs" w="7.75rem">
-                  <option value="option1">Option 1</option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
-                </Select>
+                <Flex
+                  alignItems="center"
+                  border="1px solid rgba(160, 174, 192, 1)"
+                  w="40%"
+                  borderRadius="5"
+                >
+                  <BiSortAlt2 />
+                  <Select
+                    size="xs"
+                    w="7.75rem"
+                    onChange={(e) => handleSort(e.target.value)}
+                    fontWeight="bold"
+                    color="black"
+                    border="none"
+                  >
+                    <option value="desc">Last Seen</option>
+                    <option value="asc">First Seen</option>
+                  </Select>
+                </Flex>
               </Th>
               <Th fontWeight="bold" color="black">
                 Log Type
@@ -151,6 +192,8 @@ const LogTable: React.FC<LogTableProps> = ({
                       display="flex"
                       gap="2"
                       alignItems="center"
+                      border="1px solid rgba(160, 174, 192, 1)"
+                      borderRadius="15"
                     >
                       <span>
                         <FaFolder />

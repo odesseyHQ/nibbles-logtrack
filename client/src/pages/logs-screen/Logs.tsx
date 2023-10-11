@@ -68,15 +68,17 @@ const Logs = () => {
         <Heading as="h1">Logs</Heading>
 
         <Flex
-          px={4}
-          py={2}
           alignItems="center"
           bg="white"
           justifyContent="space-between"
-          mt="1rem"
+          mt="2rem"
           mb="1.25rem"
         >
-          <Flex>
+          <Flex
+            border="1px solid rgba(160, 174, 192, 1)"
+            p="1"
+            borderRadius="5"
+          >
             <HStack align="center">
               <Icon as={AiOutlineFolder} boxSize={6} mr={2} />
               <Select
@@ -93,7 +95,11 @@ const Logs = () => {
                 ))}
                 <option value="ALL_PROJECTS">All Projects</option>
               </Select>
-              <Box borderLeft="1px solid black" height="1.875" mx={2} />
+              <Box
+                borderLeft="1px solid rgba(160, 174, 192, 1)"
+                height="100%"
+                mx={2}
+              />
             </HStack>
             <HStack align="center">
               <Icon as={IoExtensionPuzzleOutline} boxSize={6} mr={2} />
@@ -106,7 +112,11 @@ const Logs = () => {
                 <option value="WARNING">WARNING</option>
                 <option value="INFO">INFO</option>
               </Select>
-              <Box borderLeft="1px solid black" height="1.875" mx={2} />
+              <Box
+                borderLeft="1px solid rgba(160, 174, 192, 1)"
+                height="100%"
+                mx={2}
+              />
             </HStack>
             <HStack align="center">
               <Icon as={AiOutlineCalendar} boxSize={6} mr={2} />
@@ -120,7 +130,7 @@ const Logs = () => {
               </Select>
             </HStack>
           </Flex>
-          <Box>
+          <Box border="1px solid rgba(160, 174, 192, 1)" borderRadius="5">
             <InputGroup>
               <InputLeftAddon
                 children="Search by Log id"
