@@ -23,6 +23,7 @@ import {
   convertDateToUTC,
 } from "../../utils/date-fns";
 import { useEffect, useState } from "react";
+import LoadingSkelton from "../../components/shared/layouter/LoadingSkelton";
 
 interface LogTableProps {
   selectedLogType?: string;
@@ -109,7 +110,7 @@ const LogTable: React.FC<LogTableProps> = ({
 
   const offset = currentPage * itemsPerPage;
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return <LoadingSkelton />;
   }
   const sortedData = [...data].sort((a, b) => {
     const aValue = new Date(a.created_at).getTime();

@@ -29,6 +29,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { projectName } from "./ProjectsList";
 import { useNavigate } from "react-router-dom";
 import convertUTCtoIST from "../../utils/date-fns";
+import LoadingSkelton from "../../components/shared/layouter/LoadingSkelton";
 interface ProjectInf {
   projectId: number | undefined;
   projectCode: string;
@@ -84,7 +85,7 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return <LoadingSkelton />;
   }
 
   const offset = currentPage * itemsPerPage;
