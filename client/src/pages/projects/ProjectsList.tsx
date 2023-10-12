@@ -62,8 +62,6 @@ const ProjectsList = () => {
           Project List
         </Heading>
         <Flex
-          px={4}
-          py={2}
           alignItems="center"
           bg="white"
           justifyContent="space-between"
@@ -74,9 +72,13 @@ const ProjectsList = () => {
             <Box>
               <InputGroup>
                 <Button
-                  colorScheme="teal"
+                  bg="brand.100"
+                  variant="solid"
+                  color="white"
+                  _hover={{ bg: "brand.200" }}
                   onClick={handleSearchButtonClick}
                   mr="2"
+                  px="8"
                 >
                   Search
                 </Button>
@@ -89,8 +91,14 @@ const ProjectsList = () => {
               </InputGroup>
             </Box>
           </HStack>
-          <Button colorScheme="teal" variant="solid" onClick={onOpen}>
-            Create Project
+          <Button
+            bg="brand.100"
+            variant="solid"
+            color="white"
+            _hover={{ bg: "brand.200" }}
+            onClick={onOpen}
+          >
+            Create Project +
           </Button>
 
           <Modal

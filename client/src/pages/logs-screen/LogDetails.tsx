@@ -12,12 +12,13 @@ import { FaFolder } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useSingleLog } from "./hooks/logs.hooks";
 import { useNavigate } from "react-router-dom";
+import LoadingSkelton from "../../components/shared/layouter/LoadingSkelton";
 const LogDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string | undefined }>();
   const { data, isLoading } = useSingleLog(id);
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return <LoadingSkelton />;
   }
 
   return (
