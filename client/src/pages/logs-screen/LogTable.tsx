@@ -180,7 +180,7 @@ const LogTable: React.FC<LogTableProps> = ({
                   }}
                 >
                   <Td>
-                    <Text color="teal" fontWeight="bold">
+                    <Text color="brand.100" fontWeight="bold">
                       {item.logId}
                     </Text>
                     <Text mt="1" mb="2">
@@ -197,21 +197,25 @@ const LogTable: React.FC<LogTableProps> = ({
                       borderRadius="15"
                     >
                       <span>
-                        <FaFolder />
+                        <FaFolder style={{ color: "#718096" }} />
                       </span>
-                      <span>{item.project.projectCode}</span>
+                      <span style={{ color: "#718096" }}>
+                        {item.project.projectCode}
+                      </span>
                     </Button>
                   </Td>
                   <Td>
                     <Badge
                       variant="solid"
-                      colorScheme={
+                      px="2"
+                      borderRadius="6"
+                      bg={
                         item.logType === "ERROR"
-                          ? "red"
+                          ? "error.100"
                           : item.logType === "WARNING"
-                          ? "yellow"
+                          ? "warning.100"
                           : item.logType === "INFO"
-                          ? "blue"
+                          ? "info.100"
                           : "gray"
                       }
                     >

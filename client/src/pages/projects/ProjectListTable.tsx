@@ -118,7 +118,9 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
             </ModalBody>
 
             <ModalFooter>
-              <Button onClick={onClose}>Cancel</Button>
+              <Button onClick={onClose} mr="3">
+                Cancel
+              </Button>
               <Button colorScheme="blue" type="submit" mr={3}>
                 Submit
               </Button>
@@ -158,11 +160,14 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
               currentData.map((item: ProjectInf, index: number) => (
                 <Tr key={index}>
                   <Td>
-                    <Text fontWeight="bold">{item.projectId}</Text>
+                    <Text color="rgba(0, 0, 0, 0.48)" fontWeight="bold">
+                      {item.projectId}
+                    </Text>
                   </Td>
                   <Td>
                     <Flex gap="4">
                       <Text
+                        color="rgba(0, 0, 0, 0.48)"
                         fontWeight="bold"
                         onClick={() => {
                           navigate(`/projectlogs/${item.projectId}`);
@@ -174,14 +179,16 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
 
                       <span
                         onClick={() => handleEditClick(item)}
-                        style={{ cursor: "pointer", color: "teal" }}
+                        style={{ cursor: "pointer", color: "brand.100" }}
                       >
                         <BiEdit />
                       </span>
                     </Flex>
                   </Td>
 
-                  <Td fontWeight="bold">{convertUTCtoIST(item.created_at)}</Td>
+                  <Td fontWeight="bold" color="rgba(0, 0, 0, 0.48)">
+                    {convertUTCtoIST(item.created_at)}
+                  </Td>
                 </Tr>
               ))
             )}

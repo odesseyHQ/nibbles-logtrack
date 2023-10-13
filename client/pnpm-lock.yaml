@@ -17,6 +17,9 @@ dependencies:
   '@emotion/styled':
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.22)(react@18.2.0)
+  '@fontsource-variable/montserrat':
+    specifier: ^5.0.14
+    version: 5.0.14
   '@tanstack/react-query':
     specifier: ^4.35.3
     version: 4.35.3(react-dom@18.2.0)(react@18.2.0)
@@ -1771,6 +1774,10 @@ packages:
     resolution: {integrity: sha512-1S8uAY/MTJqVx0SC4epBq+N2yhuwtNwLbJYNZyhL2pO1ZVKn5HFXav5T41Ryzy9K9V7ZId2JB2oy/W4aCd9/2w==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@fontsource-variable/montserrat@5.0.14:
+    resolution: {integrity: sha512-OQzydsAhI7MBPB59HxzwHGpdJAZVONTgkGW+NWA98iRNDaUbR1HyEuD9ptxkjwr3egslLKV5/eJN4+22G3kl6A==}
+    dev: false
 
   /@humanwhocodes/config-array@0.11.11:
     resolution: {integrity: sha512-N2brEuAadi0CcdeMXUkhbZB84eskAc8MEX1By6qEchoVywSgXPIjou4rYsl0V3Hj0ZnuGycGCjdNgockbzeWNA==}

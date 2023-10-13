@@ -58,7 +58,7 @@ const ProjectsList = () => {
     <>
       <TopBar />
       <Box maxW="80%" mx="auto" mt="7.75rem">
-        <Heading as="h1" color="#746666">
+        <Heading as="h1" color="#746666" fontFamily="heading">
           Project List
         </Heading>
         <Flex
@@ -127,7 +127,9 @@ const ProjectsList = () => {
                 </ModalBody>
 
                 <ModalFooter>
-                  <Button onClick={onClose}>Cancel</Button>
+                  <Button onClick={onClose} mr="3">
+                    Cancel
+                  </Button>
                   <Button colorScheme="blue" type="submit" mr={3}>
                     Create
                   </Button>
