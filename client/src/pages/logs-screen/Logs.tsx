@@ -65,7 +65,9 @@ const Logs = () => {
     <>
       <TopBar />
       <Box maxW="80%" mx="auto" mt="3.75rem">
-        <Heading as="h1">Logs</Heading>
+        <Heading as="h1" fontFamily="heading">
+          Logs
+        </Heading>
 
         <Flex
           alignItems="center"

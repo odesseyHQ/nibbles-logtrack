@@ -36,17 +36,20 @@ const LogDetails = () => {
         <Heading as="h1">Log Details</Heading>
         <HStack mt="2" mb="2">
           <Text>Log Id:</Text>
-          <Text color="teal" fontWeight={"bold"}>
+          <Text color="brand.100" fontWeight={"bold"}>
             {data.id}
           </Text>
           <Badge
-            colorScheme={
+            variant="solid"
+            px="2"
+            borderRadius="6"
+            bg={
               data.logType === "ERROR"
-                ? "red"
+                ? "error.100"
                 : data.logType === "WARNING"
-                ? "yellow"
+                ? "warning.100"
                 : data.logType === "INFO"
-                ? "blue"
+                ? "info.100"
                 : "gray"
             }
           >
@@ -58,9 +61,9 @@ const LogDetails = () => {
         </Text>
         <Button px="2" size="xs" display="flex" gap="2" alignItems="center">
           <span>
-            <FaFolder />
+            <FaFolder style={{ color: "#2D3748" }} />
           </span>
-          <span>{data.project.projectCode}</span>
+          <span style={{ color: "#2D3748" }}>{data.project.projectCode}</span>
         </Button>
         <Heading as="h2" mt="10" mb="5" fontSize="md">
           Log{" "}
