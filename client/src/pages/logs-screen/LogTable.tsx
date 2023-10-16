@@ -71,7 +71,7 @@ const LogTable: React.FC<LogTableProps> = ({
   };
   useEffect(() => {
     setSortOption("asc");
-    setSortDirection("asc"); // Set your desired default sorting option here
+    setSortDirection("asc");
   }, [selectedProject]);
 
   const { id: projectId } = useParams<{ id: string | undefined }>();
@@ -124,14 +124,9 @@ const LogTable: React.FC<LogTableProps> = ({
   return (
     <>
       <TableContainer>
-        <Table
-          variant="striped"
-          colorScheme="gray"
-          borderWidth="1px"
-          borderColor="gray.300"
-        >
+        <Table borderWidth="1px" borderColor="gray.300">
           <Thead>
-            <Tr>
+            <Tr backgroundColor="#FFF5F5">
               <Th>
                 <Flex
                   alignItems="center"
@@ -147,6 +142,9 @@ const LogTable: React.FC<LogTableProps> = ({
                     fontWeight="bold"
                     color="black"
                     border="none"
+                    _focus={{
+                      boxShadow: "none",
+                    }}
                   >
                     <option value="desc">Last Seen</option>
                     <option value="asc">First Seen</option>
@@ -168,7 +166,7 @@ const LogTable: React.FC<LogTableProps> = ({
             {currentData.length === 0 ? (
               <Tr>
                 <Td colSpan={4} textAlign="center">
-                  No items found
+                  No Logs Found
                 </Td>
               </Tr>
             ) : (
