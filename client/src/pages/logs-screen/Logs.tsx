@@ -80,6 +80,7 @@ const Logs = () => {
             border="1px solid rgba(160, 174, 192, 1)"
             p="1"
             borderRadius="5"
+            height="34px"
           >
             <HStack align="center">
               <Icon as={AiOutlineFolder} boxSize={6} mr={2} />
@@ -89,6 +90,10 @@ const Logs = () => {
                 placeholder={
                   projectId ? projectList[0].projectCode : "All Projects"
                 }
+                border="none"
+                _focus={{
+                  boxShadow: "none",
+                }}
               >
                 {filteredProjectList.map((project: any) => (
                   <option key={project.projectId} value={project.projectId}>
@@ -109,6 +114,10 @@ const Logs = () => {
                 placeholder="All Logs"
                 value={selectedLogType}
                 onChange={handleLogTypeChange}
+                border="none"
+                _focus={{
+                  boxShadow: "none",
+                }}
               >
                 <option value="ERROR">ERROR</option>
                 <option value="WARNING">WARNING</option>
@@ -126,6 +135,10 @@ const Logs = () => {
                 placeholder="All Time"
                 value={selectedTime}
                 onChange={handleTimeChange}
+                border="none"
+                _focus={{
+                  boxShadow: "none",
+                }}
               >
                 <option value="24">24H</option>
                 <option value="12">12H</option>

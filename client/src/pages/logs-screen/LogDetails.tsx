@@ -60,10 +60,10 @@ const LogDetails = () => {
           {data.createdAt}
         </Text>
         <Button px="2" size="xs" display="flex" gap="2" alignItems="center">
-          <span>
-            <FaFolder style={{ color: "#2D3748" }} />
+          <span style={{ color: "#718096" }}>
+            <FaFolder />
           </span>
-          <span style={{ color: "#2D3748" }}>{data.project.projectCode}</span>
+          <span style={{ color: "#718096" }}>{data.project.projectCode}</span>
         </Button>
         <Heading as="h2" mt="10" mb="5" fontSize="md">
           Log{" "}

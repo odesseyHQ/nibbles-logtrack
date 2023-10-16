@@ -129,23 +129,17 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
         </ModalContent>
       </Modal>
       <TableContainer>
-        <Table
-          variant="striped"
-          colorScheme="
-          gray"
-          borderWidth="1px"
-          borderColor="gray.300"
-        >
+        <Table borderWidth="1px" borderColor="gray.300">
           <Thead>
-            <Tr>
+            <Tr backgroundColor="#FFF5F5">
               <Th fontWeight="bold" color="black">
-                Id
+                ID
               </Th>
               <Th fontWeight="bold" color="black" width="50%">
-                Code
+                CODE
               </Th>
               <Th fontWeight="bold" color="black">
-                Time
+                LAST UPDATED AT
               </Th>
             </Tr>
           </Thead>
@@ -153,12 +147,17 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
             {currentData.length === 0 ? (
               <Tr>
                 <Td colSpan={3} textAlign="center">
-                  No items found
+                  No Projects Found
                 </Td>
               </Tr>
             ) : (
               currentData.map((item: ProjectInf, index: number) => (
-                <Tr key={index}>
+                <Tr
+                  key={index}
+                  style={{
+                    backgroundColor: index % 2 === 1 ? "#EBF8FF" : "inherit",
+                  }}
+                >
                   <Td>
                     <Text color="rgba(0, 0, 0, 0.48)" fontWeight="bold">
                       {item.projectId}
@@ -179,7 +178,11 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
 
                       <span
                         onClick={() => handleEditClick(item)}
-                        style={{ cursor: "pointer", color: "brand.100" }}
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor: "#C4F1F9",
+                          color: "#0000007A",
+                        }}
                       >
                         <BiEdit />
                       </span>
