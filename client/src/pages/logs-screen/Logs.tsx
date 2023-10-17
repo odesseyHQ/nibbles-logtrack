@@ -57,6 +57,7 @@ const Logs = () => {
   if (projectListLoading) {
     return <Text>Loading...</Text>;
   }
+
   const filteredProjectList = allProjectList.filter(
     (project: any) => project.projectCode !== projectList[0].projectCode
   );
@@ -87,6 +88,7 @@ const Logs = () => {
               <Select
                 value={selectedProject}
                 onChange={handleProjectTypeChange}
+                fontWeight="500"
                 placeholder={
                   projectId ? projectList[0].projectCode : "All Projects"
                 }
@@ -95,12 +97,21 @@ const Logs = () => {
                   boxShadow: "none",
                 }}
               >
-                {filteredProjectList.map((project: any) => (
-                  <option key={project.projectId} value={project.projectId}>
-                    {project.projectCode}
-                  </option>
-                ))}
-                <option value="ALL_PROJECTS">All Projects</option>
+                {projectId
+                  ? filteredProjectList.map((project: any) => (
+                      <option key={project.projectId} value={project.projectId}>
+                        {project.projectCode}
+                      </option>
+                    ))
+                  : allProjectList.map((project: any) => (
+                      <option key={project.projectId} value={project.projectId}>
+                        {project.projectCode}
+                      </option>
+                    ))}
+
+                {projectId ? (
+                  <option value="ALL_PROJECTS">All Projects</option>
+                ) : undefined}
               </Select>
               <Box
                 borderLeft="1px solid rgba(160, 174, 192, 1)"
@@ -115,6 +126,7 @@ const Logs = () => {
                 value={selectedLogType}
                 onChange={handleLogTypeChange}
                 border="none"
+                fontWeight="500"
                 _focus={{
                   boxShadow: "none",
                 }}
@@ -135,6 +147,7 @@ const Logs = () => {
                 placeholder="All Time"
                 value={selectedTime}
                 onChange={handleTimeChange}
+                fontWeight="500"
                 border="none"
                 _focus={{
                   boxShadow: "none",
