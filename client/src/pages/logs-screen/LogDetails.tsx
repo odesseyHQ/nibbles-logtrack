@@ -56,7 +56,7 @@ const LogDetails = () => {
             {data.logType}
           </Badge>
         </HStack>
-        <Text mb="2" fontWeight="bold">
+        <Text mb="2" fontWeight="500">
           {data.createdAt}
         </Text>
         <Button px="2" size="xs" display="flex" gap="2" alignItems="center">

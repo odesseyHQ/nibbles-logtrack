@@ -181,7 +181,7 @@ const LogTable: React.FC<LogTableProps> = ({
                     <Text color="brand.100" fontWeight="bold">
                       {item.logId}
                     </Text>
-                    <Text mt="1" mb="2">
+                    <Text mt="1" mb="2" fontSize="14" fontWeight="400">
                       {item.logText}
                     </Text>
 
@@ -221,7 +221,9 @@ const LogTable: React.FC<LogTableProps> = ({
                     </Badge>
                   </Td>
 
-                  <Td fontWeight="bold">{item.created_at}</Td>
+                  <Td fontWeight="500" color="#000000">
+                    {item.created_at}
+                  </Td>
                   <Td>
                     <Text>
                       {item.meta
