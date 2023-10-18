@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { FilterInf } from "../LogTable";
+
 const baseUrl = import.meta.env.VITE_APP_BASE_URL;
 const authorizationToken = import.meta.env.VITE_APP_AUTHORIZATION_TOKEN;
+
 const fetchLogsList = async (filter: FilterInf) => {
   const url = `${baseUrl}/logs/all`;
-
   const requestBody = {
     filter,
     sort: {
@@ -15,7 +16,6 @@ const fetchLogsList = async (filter: FilterInf) => {
     limit: 20,
     offset: 0,
   };
-
   const headers = {
     Authorization: authorizationToken,
     "Content-Type": "application/json",
@@ -34,7 +34,6 @@ export const useLogsList = (filter: FilterInf) => {
 
 const fetchSingleLog = async (logId: any) => {
   const url = `${baseUrl}/logs/${logId}`;
-
   const headers = {
     Authorization: authorizationToken,
     "Content-Type": "application/json",

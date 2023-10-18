@@ -24,7 +24,6 @@ const TopBar = () => {
           Nibbles LogTracker
         </Text>
       </HStack>
-
       <HStack spacing={6}>
         <Text mr={2}>Github</Text>
         <Box borderLeft="1px solid black" height="2rem" mx={2} />

@@ -24,6 +24,7 @@ import {
 } from "../../utils/date-fns";
 import { useEffect, useState } from "react";
 import LoadingSkelton from "../../components/shared/layouter/LoadingSkelton";
+import { logTypeColorMap } from "./LogDetails";
 
 interface LogTableProps {
   selectedLogType?: string;
@@ -49,6 +50,7 @@ export interface FilterInf {
   projectId?: { IN: string[] };
   logId?: { IN: string[] };
 }
+
 const LogTable: React.FC<LogTableProps> = ({
   selectedLogType,
   selectedProject,
@@ -60,6 +62,9 @@ const LogTable: React.FC<LogTableProps> = ({
 }) => {
   const [sortOption, setSortOption] = useState<string | null>("asc");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const navigate = useNavigate();
+  const { id: projectId } = useParams<{ id: string | undefined }>();
+  const itemsPerPage = 5;
 
   const handleSort = (option: string) => {
     setSortOption((prevOption) =>
@@ -73,9 +78,6 @@ const LogTable: React.FC<LogTableProps> = ({
     setSortOption("asc");
     setSortDirection("asc");
   }, [selectedProject]);
-
-  const { id: projectId } = useParams<{ id: string | undefined }>();
-  const navigate = useNavigate();
 
   const filter: FilterInf = {
     ...(selectedLogType ? { logType: { IN: [selectedLogType] } } : {}),
@@ -104,10 +106,7 @@ const LogTable: React.FC<LogTableProps> = ({
         : {}
       : {}),
   };
-
   const { data, isLoading } = useLogsList(filter);
-  const itemsPerPage = 5;
-
   const offset = currentPage * itemsPerPage;
   if (isLoading) {
     return <LoadingSkelton />;
@@ -115,10 +114,8 @@ const LogTable: React.FC<LogTableProps> = ({
   const sortedData = [...data].sort((a, b) => {
     const aValue = new Date(a.created_at).getTime();
     const bValue = new Date(b.created_at).getTime();
-
     return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
   });
-
   const currentData = sortedData.slice(offset, offset + itemsPerPage);
 
   return (
@@ -184,7 +181,6 @@ const LogTable: React.FC<LogTableProps> = ({
                     <Text mt="1" mb="2" fontSize="14" fontWeight="400">
                       {item.logText}
                     </Text>
-
                     <Button
                       px="2"
                       size="xs"
@@ -207,20 +203,11 @@ const LogTable: React.FC<LogTableProps> = ({
                       variant="solid"
                       px="2"
                       borderRadius="6"
-                      bg={
-                        item.logType === "ERROR"
-                          ? "error.100"
-                          : item.logType === "WARNING"
-                          ? "warning.100"
-                          : item.logType === "INFO"
-                          ? "info.100"
-                          : "gray"
-                      }
+                      bg={logTypeColorMap[item.logType]}
                     >
                       {item.logType}
                     </Badge>
                   </Td>
-
                   <Td fontWeight="500" color="#000000">
                     {item.created_at}
                   </Td>

@@ -19,7 +19,6 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-
 import ProjectListTable from "./ProjectListTable";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useCreateProjectForm } from "./hooks/projects.hooks";
@@ -27,32 +26,29 @@ import { useCreateProjectForm } from "./hooks/projects.hooks";
 export type projectName = {
   projectCode: string;
 };
+
 const ProjectsList = () => {
   const { register, handleSubmit, setValue } = useForm<projectName>();
   const { mutate }: any = useCreateProjectForm();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [projectCode, setProjectCode] = useState<string>("");
   const [searchedProjectCode, setSearchedProjectCode] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(0);
-
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
 
   const onSubmit: SubmitHandler<projectName> = (data: any) => {
     setValue("projectCode", " ");
     onClose();
     mutate(data);
   };
-
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
   const handleSearchButtonClick = () => {
     setProjectCode(searchedProjectCode);
     handlePageChange(0);
   };
-
-  const initialRef = React.useRef(null);
-  const finalRef = React.useRef(null);
 
   return (
     <>
@@ -100,7 +96,6 @@ const ProjectsList = () => {
           >
             Create Project +
           </Button>
-
           <Modal
             initialFocusRef={initialRef}
             finalFocusRef={finalRef}
@@ -125,7 +120,6 @@ const ProjectsList = () => {
                     />
                   </FormControl>
                 </ModalBody>
-
                 <ModalFooter>
                   <Button onClick={onClose} mr="3">
                     Cancel

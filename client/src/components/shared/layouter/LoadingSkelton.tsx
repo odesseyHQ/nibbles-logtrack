@@ -17,7 +17,6 @@ const LoadingSkelton = () => {
       <Box py={4} px={8} borderBottom="1px solid" borderColor="gray.200">
         <Skeleton height="30px" width="400px" />
       </Box>
-
       <Table variant="simple">
         <Thead>
           <Tr>

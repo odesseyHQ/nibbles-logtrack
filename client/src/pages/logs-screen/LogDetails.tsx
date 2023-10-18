@@ -7,20 +7,29 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
-
 import { FaFolder } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useSingleLog } from "./hooks/logs.hooks";
 import { useNavigate } from "react-router-dom";
 import LoadingSkelton from "../../components/shared/layouter/LoadingSkelton";
+
+interface ILogTypeColorMap {
+  [key: string]: string;
+}
+export const logTypeColorMap: ILogTypeColorMap = {
+  ERROR: "error.100",
+  WARNING: "warning.100",
+  INFO: "info.100",
+};
+
 const LogDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string | undefined }>();
   const { data, isLoading } = useSingleLog(id);
+
   if (isLoading) {
     return <LoadingSkelton />;
   }
-
   return (
     <>
       <CloseButton
@@ -43,15 +52,7 @@ const LogDetails = () => {
             variant="solid"
             px="2"
             borderRadius="6"
-            bg={
-              data.logType === "ERROR"
-                ? "error.100"
-                : data.logType === "WARNING"
-                ? "warning.100"
-                : data.logType === "INFO"
-                ? "info.100"
-                : "gray"
-            }
+            bg={logTypeColorMap[data.logType]}
           >
             {data.logType}
           </Badge>

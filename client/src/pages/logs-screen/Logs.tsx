@@ -25,18 +25,19 @@ const Logs = () => {
   const [searchedLogId, setSearchedLogId] = useState<string>("");
   const [logId, setLogId] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(0);
+  const { id: projectId } = useParams<{ id: string | undefined }>();
+  const projectIdFilter = projectId ? { projectId: { IN: [projectId] } } : {};
+  const { data: allProjectList } = useProjectList({});
+  const filter = { ...projectIdFilter };
+  const { data: projectList, isLoading: projectListLoading } =
+    useProjectList(filter);
+  const filteredProjectList = allProjectList?.filter(
+    (project: any) => project?.projectCode !== projectList[0]?.projectCode
+  );
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-  const { id: projectId } = useParams<{ id: string | undefined }>();
-
-  const projectIdFilter = projectId ? { projectId: { IN: [projectId] } } : {};
-  const filter = { ...projectIdFilter };
-  const { data: projectList, isLoading: projectListLoading } =
-    useProjectList(filter);
-  const { data: allProjectList } = useProjectList({});
-
   const handleLogTypeChange = (event: any) => {
     setSelectedLogType(event.target.value);
     handlePageChange(0);
@@ -49,19 +50,14 @@ const Logs = () => {
     setSelectedTime(event.target.value);
     handlePageChange(0);
   };
-
   const handleSearchButtonClick = () => {
     setLogId(searchedLogId);
     handlePageChange(0);
   };
+
   if (projectListLoading) {
     return <Text>Loading...</Text>;
   }
-
-  const filteredProjectList = allProjectList.filter(
-    (project: any) => project.projectCode !== projectList[0].projectCode
-  );
-
   return (
     <>
       <TopBar />
@@ -69,7 +65,6 @@ const Logs = () => {
         <Heading as="h1" fontFamily="heading">
           Logs
         </Heading>
-
         <Flex
           alignItems="center"
           bg="white"
@@ -108,7 +103,6 @@ const Logs = () => {
                         {project.projectCode}
                       </option>
                     ))}
-
                 {projectId ? (
                   <option value="ALL_PROJECTS">All Projects</option>
                 ) : undefined}

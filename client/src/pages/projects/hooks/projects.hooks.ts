@@ -1,8 +1,10 @@
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+
 const baseUrl = import.meta.env.VITE_APP_BASE_URL;
 const authorizationToken = import.meta.env.VITE_APP_AUTHORIZATION_TOKEN;
+
 const fetchProjectList = async (filter: any) => {
   const url = `${baseUrl}/project`;
   const requestBody = {
@@ -14,7 +16,6 @@ const fetchProjectList = async (filter: any) => {
     limit: 30,
     offset: 0,
   };
-
   const headers = {
     Authorization: authorizationToken,
     "Content-Type": "application/json",
@@ -36,7 +37,6 @@ export const useCreateProjectForm = (
   onErrorCallBack?: VoidFunction
 ) => {
   const toast = useToast();
-
   const CREATE_PROJECT = `${baseUrl}/project/create`;
   const headers = {
     Authorization: authorizationToken,
@@ -69,7 +69,6 @@ export const useCreateProjectForm = (
       }
       queryClient.invalidateQueries({ queryKey: ["projectList"] });
     },
-
     onError: (error: any) => {
       onErrorCallBack
         ? onErrorCallBack()
@@ -92,7 +91,6 @@ export const useEditProjectForm = (
   onErrorCallBack?: VoidFunction
 ) => {
   const toast = useToast();
-
   const CREATE_PROJECT = `${baseUrl}/project/edit/${projectId}`;
   const headers = {
     Authorization: authorizationToken,
@@ -125,7 +123,6 @@ export const useEditProjectForm = (
       }
       queryClient.invalidateQueries({ queryKey: ["projectList"] });
     },
-
     onError: (error: any) => {
       onErrorCallBack
         ? onErrorCallBack()

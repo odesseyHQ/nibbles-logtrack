@@ -30,6 +30,7 @@ import { projectName } from "./ProjectsList";
 import { useNavigate } from "react-router-dom";
 import convertUTCtoIST from "../../utils/date-fns";
 import LoadingSkelton from "../../components/shared/layouter/LoadingSkelton";
+
 interface ProjectInf {
   projectId: number | undefined;
   projectCode: string;
@@ -41,6 +42,7 @@ interface ProjectListTableProps {
   currentPage: number;
   handlePageChange: (newPage: number) => void;
 }
+
 const ProjectListTable: React.FC<ProjectListTableProps> = ({
   projectCode,
   searchedProjectCode,
@@ -49,7 +51,9 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
 }) => {
   const navigate = useNavigate();
   const { register, handleSubmit, setValue } = useForm<ProjectInf>();
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
   const [selectedProject, setSelectedProject] = useState<ProjectInf | null>(
     null
   );
@@ -64,6 +68,10 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
           },
         }
       : {};
+  const { data, isLoading } = useProjectList(filter);
+  const itemsPerPage = 5;
+  const offset = currentPage * itemsPerPage;
+  const currentData = data.slice(offset, offset + itemsPerPage);
   const handleEditClick = (project: ProjectInf) => {
     setSelectedProject(() => project);
     onOpen();
@@ -78,18 +86,10 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
     onClose();
     mutate(data);
   };
-  const { data, isLoading } = useProjectList(filter);
-  const itemsPerPage = 5;
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const initialRef = React.useRef(null);
-  const finalRef = React.useRef(null);
   if (isLoading) {
     return <LoadingSkelton />;
   }
-
-  const offset = currentPage * itemsPerPage;
-  const currentData = data.slice(offset, offset + itemsPerPage);
   return (
     <>
       <Modal
@@ -116,7 +116,6 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
                 />
               </FormControl>
             </ModalBody>
-
             <ModalFooter>
               <Button onClick={onClose} mr="3">
                 Cancel
@@ -175,7 +174,6 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
                       >
                         {item.projectCode}
                       </Text>
-
                       <span
                         onClick={() => handleEditClick(item)}
                         style={{
@@ -188,7 +186,6 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
                       </span>
                     </Flex>
                   </Td>
-
                   <Td fontWeight="bold" color="rgba(0, 0, 0, 0.48)">
                     {convertUTCtoIST(item.created_at)}
                   </Td>
@@ -223,4 +220,5 @@ const ProjectListTable: React.FC<ProjectListTableProps> = ({
     </>
   );
 };
+
 export default ProjectListTable;
