@@ -8,10 +8,6 @@ Notes:
 
 ==========
 
-# 🧰 Simple TypeScript Starter | 2023
-
-> We talk about a lot of **advanced Node.js and TypeScript** concepts on [the blog](https://khalilstemmler.com), particularly focused around Domain-Driven Design and large-scale enterprise application patterns. However, I received a few emails from readers that were interested in seeing what a basic TypeScript starter project looks like. So I've put together just that.
-
 ### Features
 
 - Minimal
@@ -22,32 +18,23 @@ Notes:
 - VS Code debugger scripts
 - Local development with Nodemon
 
-### Scripts
+## I. Development Environment Setup
 
-#### `npm run start:dev`
+1. Clone the repository
+   ```
+   $ git clone https://github.com/odesseyHQ/nibbles-logtrack.git
+   ```
+2. Navigate to the server directory
+3. Setup the [env variables needed](#ii-environment-variables-needed) in the `.env` file
+4. Run this command to install all the dependencies
 
-Starts the application in development using `nodemon` and `ts-node` to do hot reloading.
+   ```bash
+   $ pnpm install
+   ```
 
-#### `npm run start`
+## III. Running the app
 
-Starts the app in production by first building the project with `npm run build`, and then executing the compiled JavaScript at `build/index.js`.
-
-#### `npm run build`
-
-Builds the app at `build`, cleaning the folder first.
-
-#### `npm run test`
-
-Runs the `jest` tests once.
-
-#### `npm run test:dev`
-
-Run the `jest` tests in watch mode, waiting for file changes.
-
-#### `npm run prettier-format`
-
-Format your code.
-
-#### `npm run prettier-watch`
-
-Format your code in watch mode, waiting for file changes.
+```bash
+# watch mode
+$ pnpm run start:dev
+```
