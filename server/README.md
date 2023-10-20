@@ -32,6 +32,11 @@ Notes:
    $ pnpm install
    ```
 
+## II. Environment Variables Needed
+Create a file named .env and copy the contents of .env.local to it in the project root directory.
+
+ACCESS_KEY
+
 ## III. Running the app
 
 ```bash
